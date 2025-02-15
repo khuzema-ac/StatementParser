@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bank_statement_parser"
+version = "0.1.0"
+authors = [
+    { name="Khuzema Challawala", email="khuzema.ac@gmail.com" },
+]
+description = "Bank Statement Parser is a Python library designed to parse and normalize transaction data from various bank statement formats ( CSV, Excel, etc.) into a consistent and easy-to-use Pandas DataFrame. It supports multiple banks and file formats, making it a versatile tool for financial data analysis."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: GNU GENERAL PUBLIC LICENSE",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas>=2.2.3",
+    "numpy>=2.2.3",
+    "xlrd>=2.0.1"
+]
