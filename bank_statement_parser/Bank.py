@@ -2,26 +2,25 @@ from abc import ABC, abstractmethod
 import pandas as pd
 from dateutil import parser
 
+
 class Bank(ABC):
     @abstractmethod
     def getTransactions(self, filename: str) -> pd.DataFrame:
-        pass
-
-    @abstractmethod
-    def getDataFrame(self, filename: str) -> pd.DataFrame:
         pass
 
     def getDataFrame(self, filename: str) -> pd.DataFrame:
         trans = self.getTransactions(filename)
         return pd.DataFrame([t.to_dict() for t in trans])
 
-    def get_transaction_start(self, filename: str,headers: list) -> int:
+    def get_transaction_start(self,
+                              filename: str,
+                              headers: list) -> int:
         """
         Find the row where transaction data starts.
-        
+
         Parameters:
             file_path (str): Path to the file.
-        
+
         Returns:
             int: Row index where transactions start.
         """
@@ -34,21 +33,22 @@ class Bank(ABC):
         else:
             raise ValueError("Unsupported file format. Use CSV or Excel files.")
 
-
         for i, line in enumerate(lines):
             if any(keyword in str(line).lower() for keyword in headers):
                 return i
-        
+
         raise ValueError("Could not find the start of transaction data.")
-    
-    def load_bank_statement(self,file_path, skip_rows=0) -> pd.DataFrame:
+
+    def load_bank_statement(self,
+                            file_path,
+                            skip_rows=0) -> pd.DataFrame:
         """
         Load a bank statement file (CSV or Excel) into a DataFrame.
-        
+
         Parameters:
             file_path (str): Path to the file.
             skip_rows (int): Number of initial rows to skip.
-        
+
         Returns:
             pd.DataFrame: DataFrame containing transaction data.
         """
@@ -58,10 +58,10 @@ class Bank(ABC):
             df = pd.read_excel(file_path, skiprows=skip_rows)
         else:
             raise ValueError("Unsupported file format. Use CSV or Excel files.")
-        
+
         return df
 
-    def parse_date(self,date_str):
+    def parse_date(self, date_str):
         try:
             return parser.parse(date_str, dayfirst=True)  # Adjust for your date format
         except:

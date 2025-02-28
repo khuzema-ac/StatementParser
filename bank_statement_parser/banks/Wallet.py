@@ -1,9 +1,8 @@
-from datetime import date
 from typing import List
-import numpy as np
 import pandas as pd
 import bank_statement_parser.Bank as Bank
 from bank_statement_parser.Transaction import Transaction
+
 
 class Wallet(Bank):
     __id_ledger = 300

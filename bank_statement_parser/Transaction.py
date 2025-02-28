@@ -8,7 +8,10 @@ class Transaction:
     remarks: str
     amount: float
 
-    def __init__(self,bank: str, created_date: datetime, remarks: str, amount: float):
+    def __init__(self, bank: str,
+                 created_date: datetime,
+                 remarks: str,
+                 amount: float):
         self.bank = bank
         self.created_date = created_date
         self.remarks = remarks

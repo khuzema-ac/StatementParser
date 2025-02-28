@@ -1,9 +1,8 @@
-from datetime import date
 from typing import List
-import numpy as np
 import pandas as pd
 import bank_statement_parser.Bank as Bank
 from bank_statement_parser.Transaction import Transaction
+
 
 class KotakDebit(Bank):
     __id_bank = "KOTAK-DEBIT"
@@ -43,8 +42,10 @@ class KotakDebit(Bank):
     def getData(self, filename: str) -> pd.DataFrame:
         skip_rows = self.get_transaction_start(filename, ["date", "sr.no"])
         df_full = self.load_bank_statement(filename, skip_rows=skip_rows)
-        df_filtered = df_full[df_full.iloc[:, 8].notna()]  # filter out empty rows
-        #   remove last column since it has same header has CR/DR which is causing issues later
+        # filter out empty rows
+        df_filtered = df_full[df_full.iloc[:, 8].notna()]
+        # remove last column since it has same header has
+        # CR/DR which is causing issues later
         del df_filtered[df_filtered.columns[-1]]
         df = df_filtered.copy()
         return df
