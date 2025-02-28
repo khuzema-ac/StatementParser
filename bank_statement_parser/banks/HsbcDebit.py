@@ -24,7 +24,7 @@ class HsbcDebit(Bank):
             remarks = row["Transaction Details"].strip() + _duplicate
             amount = (row["Deposits"] -
                       row["Withdrawals"])
-            
+
             transaction = Transaction(
                 bank=self.__id_bank,
                 created_date=created_date,
@@ -57,7 +57,7 @@ class HsbcDebit(Bank):
 
         if "Withdrawals" not in df.columns:
             raise ValueError("Withdrawals not found")
-        
+
         df[["Deposits"]] = df[["Deposits"]].fillna(0).astype(float)
         df[["Withdrawals"]] = df[["Withdrawals"]].fillna(0).astype(float)
         df["Date"] = df["Date"].apply(self.parse_date)
