@@ -5,11 +5,11 @@ from bank_statement_parser.Transaction import Transaction
 
 
 class Wallet(Bank):
-    __id_ledger = 300
+    __id_bank = "WALLET"
 
     def getTransactions(self, filename: str) -> List[Transaction]:
         transactions: List[Transaction] = []
-        df = self.getDataFrame(filename)
+        df = self.getData(filename)
         self.validateDataframe(df)
 
         for index, row in df.iterrows():
@@ -26,7 +26,7 @@ class Wallet(Bank):
             remarks = _category + row["note"].strip() + _duplicate
             amount = row["amount"]
             transaction = Transaction(
-                id_ledger=self.__id_ledger,
+                bank=self.__id_bank,
                 created_date=created_date,
                 remarks=remarks,
                 amount=amount,
@@ -35,9 +35,9 @@ class Wallet(Bank):
 
         return transactions
 
-    def getDataFrame(self, filename: str) -> pd.DataFrame:
-        xls = pd.ExcelFile(filename)
-        df_full = xls.parse()
+    def getData(self, filename: str) -> pd.DataFrame:
+        skip_rows = self.get_transaction_start(filename, ["date", "note"])
+        df_full = self.load_bank_statement(filename, skip_rows=skip_rows)
         #   remove last columns since not used
         del df_full[df_full.columns[-9]]
         df = df_full.copy()
@@ -59,4 +59,8 @@ class Wallet(Bank):
         df[["amount"]] = df[["amount"]].astype(float)
         df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S")
 
-        df["Seq"] = df.groupby(["date", "note", "category", "amount"]).cumcount().add(1)
+        df["Seq"] = (
+            df.groupby(["date", "note", "category", "amount"])
+            .cumcount()
+            .add(1)
+            )

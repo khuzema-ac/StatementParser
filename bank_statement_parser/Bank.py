@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 from dateutil import parser
+import logging
 
 
 class Bank(ABC):
@@ -31,7 +32,8 @@ class Bank(ABC):
             df = pd.read_excel(filename, header=None)
             lines = df.astype(str).values.tolist()
         else:
-            raise ValueError("Unsupported file format. Use CSV or Excel files.")
+            raise ValueError("Unsupported file format. Use CSV or \
+                             Excel files.")
 
         for i, line in enumerate(lines):
             if any(keyword in str(line).lower() for keyword in headers):
@@ -41,7 +43,9 @@ class Bank(ABC):
 
     def load_bank_statement(self,
                             file_path,
-                            skip_rows=0) -> pd.DataFrame:
+                            skip_rows=0,
+                            delimiter=",",
+                            usecols=None) -> pd.DataFrame:
         """
         Load a bank statement file (CSV or Excel) into a DataFrame.
 
@@ -52,17 +56,25 @@ class Bank(ABC):
         Returns:
             pd.DataFrame: DataFrame containing transaction data.
         """
+        logging.info(f"Loading bank statement \
+                     file: {file_path} skip: {skip_rows}")
+
         if file_path.endswith('.csv'):
-            df = pd.read_csv(file_path, skiprows=skip_rows)
+            df = pd.read_csv(file_path,
+                             skiprows=skip_rows,
+                             delimiter=delimiter,
+                             usecols=usecols)
         elif file_path.endswith('.xls') or file_path.endswith('.xlsx'):
             df = pd.read_excel(file_path, skiprows=skip_rows)
         else:
-            raise ValueError("Unsupported file format. Use CSV or Excel files.")
+            raise ValueError("Unsupported file format. Use CSV or \
+                             Excel files.")
 
         return df
 
     def parse_date(self, date_str):
         try:
-            return parser.parse(date_str, dayfirst=True)  # Adjust for your date format
-        except:
+            # Adjust for your date format
+            return parser.parse(date_str, dayfirst=True)
+        except ValueError:
             return None  # Handle invalid dates

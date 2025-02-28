@@ -5,8 +5,8 @@ import bank_statement_parser.Bank as Bank
 from bank_statement_parser.Transaction import Transaction
 
 
-class IciciCredit(Bank):
-    __id_bank = "ICICI-CREDIT"
+class HsbcCredit(Bank):
+    __id_bank = "HSBC-CREDIT"
 
     def getTransactions(self, filename: str) -> List[Transaction]:
         transactions: List[Transaction] = []

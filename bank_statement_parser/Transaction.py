@@ -18,7 +18,10 @@ class Transaction:
         self.amount = amount
 
     def hash(self):
-        strObj = str(self.bank) + str(self.created_date) + str(self.remarks) + str(self.amount)
+        strObj = (str(self.bank) +
+                  str(self.created_date) +
+                  str(self.remarks) +
+                  str(self.amount))
         hash_obj = hashlib.sha1(strObj.encode("utf-8"))
         hex_hash = hash_obj.hexdigest()
         return hex_hash

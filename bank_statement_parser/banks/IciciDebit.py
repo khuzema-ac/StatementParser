@@ -23,8 +23,11 @@ class IciciDebit(Bank):
                 _duplicate = " (" + str(row["Seq"]) + ") "
 
             created_date = row["Transaction Date"]
-            remarks = _checkNo + row["Transaction Remarks"].strip() + _duplicate
-            amount = row["Deposit Amount (INR )"] - row["Withdrawal Amount (INR )"]
+            remarks = (_checkNo +
+                       row["Transaction Remarks"].strip() +
+                       _duplicate)
+            amount = (row["Deposit Amount (INR )"] -
+                      row["Withdrawal Amount (INR )"])
             transaction = Transaction(
                 bank=self.__id_bank,
                 created_date=created_date,

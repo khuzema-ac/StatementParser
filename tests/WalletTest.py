@@ -1,23 +1,23 @@
 import os
 import unittest
-from bank_statement_parser.banks.KotakDebit import KotakDebit
+from bank_statement_parser.banks.Wallet import Wallet
 
 
-class TestKotakDebit(unittest.TestCase):
+class TestWallet(unittest.TestCase):
 
     def setUp(self):
-        self.kotak_debit = KotakDebit()
+        self.kotak_debit = Wallet()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
-                                            'resources/Kotak-Debit.csv')
+                                            'resources/wallet.xls')
         self.data = self.kotak_debit.getDataFrame(self.sample_csv_path)
 
     def test_numberOfRows(self):
-        self.assertEqual(len(self.data), 9)
+        self.assertEqual(len(self.data), 37)
 
     def test_sumOfAmounts(self):
         print(self.data)
         total_amount = self.data['amount'].sum()
-        expected_total = -34609.46  # Adjust for CR amounts
+        expected_total = -2989  # Adjust for CR amounts
         self.assertAlmostEqual(total_amount, expected_total, places=2)
 
 
