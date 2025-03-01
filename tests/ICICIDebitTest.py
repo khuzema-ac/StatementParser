@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.IciciDebit import IciciDebit
+from statement_parser.banks.IciciDebit import IciciDebit
 
 
 class TestIciciDebit(unittest.TestCase):

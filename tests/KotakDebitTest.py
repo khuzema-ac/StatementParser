@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.KotakDebit import KotakDebit
+from statement_parser.banks.KotakDebit import KotakDebit
 
 
 class TestKotakDebit(unittest.TestCase):

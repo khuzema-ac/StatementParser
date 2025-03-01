@@ -1,12 +1,12 @@
 
 from typing import List
 import pandas as pd
-import bank_statement_parser.Bank as Bank
-from bank_statement_parser.Transaction import Transaction
+import statement_parser.Bank as Bank
+from statement_parser.Transaction import Transaction
 
 
-class IciciCredit(Bank):
-    __id_bank = "ICICI-CREDIT"
+class HsbcDebit(Bank):
+    __id_bank = "HSBC-DEBIT"
 
     def getTransactions(self, filename: str) -> List[Transaction]:
         transactions: List[Transaction] = []
@@ -22,13 +22,9 @@ class IciciCredit(Bank):
 
             created_date = row["Date"]
             remarks = row["Transaction Details"].strip() + _duplicate
+            amount = (row["Deposits"] -
+                      row["Withdrawals"])
 
-            if row["BillingAmountSign"] == "CR":
-                _multiplier = 1
-            else:
-                _multiplier = -1
-
-            amount = row["Amount(in Rs)"] * _multiplier
             transaction = Transaction(
                 bank=self.__id_bank,
                 created_date=created_date,
@@ -40,10 +36,12 @@ class IciciCredit(Bank):
         return transactions
 
     def getData(self, filename: str) -> pd.DataFrame:
-        skip_rows = self.get_transaction_start(filename, ["date", "sr.no"])
+        skip_rows = self.get_transaction_start(filename,
+                                               ["date", "transaction details"])
         df_full = self.load_bank_statement(filename, skip_rows=skip_rows)
         # filter out empty rows
         df_filtered = df_full[df_full.iloc[:, 2].notna()]
+        df_filtered.columns = df_filtered.columns.str.strip()
         df = df_filtered.copy()
         return df
 
@@ -51,29 +49,25 @@ class IciciCredit(Bank):
         if "Date" not in df.columns:
             raise ValueError("Date not found")
 
-        if "Sr.No." not in df.columns:
-            raise ValueError("Sr.No. not found")
-
         if "Transaction Details" not in df.columns:
             raise ValueError("Transaction Details not found")
 
-        if "Amount(in Rs)" not in df.columns:
-            raise ValueError("Amount(in Rs) not found")
+        if "Deposits" not in df.columns:
+            raise ValueError("Deposits not found")
 
-        df[["Sr.No."]] = df[["Sr.No."]].astype(int)
-        # Ensure "Amount(in Rs)" is a string before replacing commas
-        if df["Amount(in Rs)"].dtype != 'object':
-            df["Amount(in Rs)"] = df["Amount(in Rs)"].astype(str)
-        df["Amount(in Rs)"] = df["Amount(in Rs)"].str.replace(",", "")
-        df[["Amount(in Rs)"]] = df[["Amount(in Rs)"]].astype(float)
+        if "Withdrawals" not in df.columns:
+            raise ValueError("Withdrawals not found")
+
+        df[["Deposits"]] = df[["Deposits"]].fillna(0).astype(float)
+        df[["Withdrawals"]] = df[["Withdrawals"]].fillna(0).astype(float)
         df["Date"] = df["Date"].apply(self.parse_date)
 
-        if df["Sr.No."].max() != len(df):
-            raise ValueError("No. of rows does not match {} != {}"
-                             .format(len(df), df["Sr.No."].max()))
         # to handle duplicate on same day
         df["Seq"] = (
-            df.groupby(["Date", "Transaction Details", "Amount(in Rs)"])
+            df.groupby(["Date",
+                        "Transaction Details",
+                        "Deposits",
+                        "Withdrawals"])
             .cumcount()
             .add(1)
         )

@@ -1,8 +1,8 @@
 
 from typing import List
 import pandas as pd
-import bank_statement_parser.Bank as Bank
-from bank_statement_parser.Transaction import Transaction
+import statement_parser.Bank as Bank
+from statement_parser.Transaction import Transaction
 
 
 class HsbcCredit(Bank):

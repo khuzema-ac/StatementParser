@@ -3,8 +3,8 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "bank_statement_parser"
-version = "0.1.0"
+name = "statement_parser"
+version = "0.0.2"
 authors = [
     { name="Khuzema Challawala", email="khuzema.ac@gmail.com" },
 ]
@@ -13,11 +13,20 @@ readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: GNU GENERAL PUBLIC LICENSE",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
     "Operating System :: OS Independent",
 ]
 dependencies = [
     "pandas>=2.2.3",
-    "numpy>=2.2.3",
-    "xlrd>=2.0.1"
+    "numpy>=2.0.2",
+    "xlrd>=2.0.1",
+    "openpyxl>=3.1.5"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "flake8>=7.1.2",
+    "sphinx>=8.2.1"
 ]

@@ -1,12 +1,12 @@
 
 from typing import List
 import pandas as pd
-import bank_statement_parser.Bank as Bank
-from bank_statement_parser.Transaction import Transaction
+import statement_parser.Bank as Bank
+from statement_parser.Transaction import Transaction
 
 
-class HsbcDebit(Bank):
-    __id_bank = "HSBC-DEBIT"
+class HsbcCredit(Bank):
+    __id_bank = "HSBC-CREDIT"
 
     def getTransactions(self, filename: str) -> List[Transaction]:
         transactions: List[Transaction] = []
@@ -22,9 +22,10 @@ class HsbcDebit(Bank):
 
             created_date = row["Date"]
             remarks = row["Transaction Details"].strip() + _duplicate
-            amount = (row["Deposits"] -
-                      row["Withdrawals"])
 
+            _multiplier = -1
+
+            amount = row["Amount"] * _multiplier
             transaction = Transaction(
                 bank=self.__id_bank,
                 created_date=created_date,
@@ -36,14 +37,14 @@ class HsbcDebit(Bank):
         return transactions
 
     def getData(self, filename: str) -> pd.DataFrame:
-        skip_rows = self.get_transaction_start(filename,
-                                               ["date", "transaction details"])
-        df_full = self.load_bank_statement(filename, skip_rows=skip_rows)
-        # filter out empty rows
-        df_filtered = df_full[df_full.iloc[:, 2].notna()]
-        df_filtered.columns = df_filtered.columns.str.strip()
-        df = df_filtered.copy()
-        return df
+        column_names = ["Date", "Transaction Details", "Amount"]
+        df_full = self.load_bank_statement(filename,
+                                           skip_rows=0,
+                                           hasHeader=False)
+        #  remane columns
+        print(df_full)
+        df_full.columns = column_names
+        return df_full
 
     def validateDataframe(self, df):
         if "Date" not in df.columns:
@@ -52,22 +53,19 @@ class HsbcDebit(Bank):
         if "Transaction Details" not in df.columns:
             raise ValueError("Transaction Details not found")
 
-        if "Deposits" not in df.columns:
-            raise ValueError("Deposits not found")
+        if "Amount" not in df.columns:
+            raise ValueError("Amount(in Rs) not found")
 
-        if "Withdrawals" not in df.columns:
-            raise ValueError("Withdrawals not found")
-
-        df[["Deposits"]] = df[["Deposits"]].fillna(0).astype(float)
-        df[["Withdrawals"]] = df[["Withdrawals"]].fillna(0).astype(float)
+        # Ensure "Amount(in Rs)" is a string before replacing commas
+        if df["Amount"].dtype != 'object':
+            df["Amount"] = df["Amount"].astype(str)
+        df["Amount"] = df["Amount"].str.replace(",", "")
+        df[["Amount"]] = df[["Amount"]].astype(float)
         df["Date"] = df["Date"].apply(self.parse_date)
 
         # to handle duplicate on same day
         df["Seq"] = (
-            df.groupby(["Date",
-                        "Transaction Details",
-                        "Deposits",
-                        "Withdrawals"])
+            df.groupby(["Date", "Transaction Details", "Amount"])
             .cumcount()
             .add(1)
         )

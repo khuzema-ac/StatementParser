@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.IciciCredit import IciciCredit
+from statement_parser.banks.IciciCredit import IciciCredit
 
 
 class TestIciciCredit(unittest.TestCase):

@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.Wallet import Wallet
+from statement_parser.banks.Wallet import Wallet
 
 
 class TestWallet(unittest.TestCase):

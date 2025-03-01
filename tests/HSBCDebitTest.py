@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.HsbcDebit import HsbcDebit
+from statement_parser.banks.HsbcDebit import HsbcDebit
 
 
 class TestHsbcDebit(unittest.TestCase):

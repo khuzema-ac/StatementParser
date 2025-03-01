@@ -1,6 +1,6 @@
 import os
 import unittest
-from bank_statement_parser.banks.HsbcCredit import HsbcCredit
+from statement_parser.banks.HsbcCredit import HsbcCredit
 
 
 class TestHsbcCredit(unittest.TestCase):
