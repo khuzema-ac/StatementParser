@@ -6,10 +6,10 @@ from bank_statement_parser.banks.IciciDebit import IciciDebit
 class TestIciciDebit(unittest.TestCase):
 
     def setUp(self):
-        self.icici_debit = IciciDebit()
+        self.bank = IciciDebit()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
                                             'resources/ICICI-Debit.xls')
-        self.data = self.icici_debit.getDataFrame(self.sample_csv_path)
+        self.data = self.bank.getDataFrame(self.sample_csv_path)
 
     def test_numberOfRows(self):
         self.assertEqual(len(self.data), 9)

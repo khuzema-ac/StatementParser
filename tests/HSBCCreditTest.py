@@ -1,23 +1,23 @@
 import os
 import unittest
-from bank_statement_parser.banks.HdfcCredit import HsbcCredit
+from bank_statement_parser.banks.HsbcCredit import HsbcCredit
 
 
-class TestHdfcCredit(unittest.TestCase):
+class TestHsbcCredit(unittest.TestCase):
 
     def setUp(self):
         self.bank = HsbcCredit()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
-                                            'resources/HDFC-Credit.csv')
+                                            'resources/HSBC-Credit.csv')
         self.data = self.bank.getDataFrame(self.sample_csv_path)
 
     def test_numberOfRows(self):
-        self.assertEqual(len(self.data), 8)
+        self.assertEqual(len(self.data), 1)
 
     def test_sumOfAmounts(self):
         print(self.data)
         total_amount = self.data['amount'].sum()
-        expected_total = -2460.11  # Adjust for CR amounts
+        expected_total = -63165.76  # Adjust for CR amounts
         self.assertAlmostEqual(total_amount, expected_total, places=2)
 
 

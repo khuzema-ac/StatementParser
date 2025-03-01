@@ -6,10 +6,10 @@ from bank_statement_parser.banks.KotakDebit import KotakDebit
 class TestKotakDebit(unittest.TestCase):
 
     def setUp(self):
-        self.kotak_debit = KotakDebit()
+        self.bank = KotakDebit()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
                                             'resources/Kotak-Debit.csv')
-        self.data = self.kotak_debit.getDataFrame(self.sample_csv_path)
+        self.data = self.bank.getDataFrame(self.sample_csv_path)
 
     def test_numberOfRows(self):
         self.assertEqual(len(self.data), 9)

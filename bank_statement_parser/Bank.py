@@ -45,7 +45,8 @@ class Bank(ABC):
                             file_path,
                             skip_rows=0,
                             delimiter=",",
-                            usecols=None) -> pd.DataFrame:
+                            usecols=None,
+                            hasHeader=True) -> pd.DataFrame:
         """
         Load a bank statement file (CSV or Excel) into a DataFrame.
 
@@ -60,10 +61,18 @@ class Bank(ABC):
                      file: {file_path} skip: {skip_rows}")
 
         if file_path.endswith('.csv'):
-            df = pd.read_csv(file_path,
-                             skiprows=skip_rows,
-                             delimiter=delimiter,
-                             usecols=usecols)
+            if hasHeader:
+                df = pd.read_csv(file_path,
+                                 skiprows=skip_rows,
+                                 delimiter=delimiter,
+                                 usecols=usecols)
+            else:
+                df = pd.read_csv(file_path,
+                                 skiprows=skip_rows,
+                                 delimiter=delimiter,
+                                 usecols=usecols,
+                                 header=None)
+
         elif file_path.endswith('.xls') or file_path.endswith('.xlsx'):
             df = pd.read_excel(file_path, skiprows=skip_rows)
         else:

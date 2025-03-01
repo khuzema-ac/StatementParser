@@ -6,10 +6,10 @@ from bank_statement_parser.banks.Wallet import Wallet
 class TestWallet(unittest.TestCase):
 
     def setUp(self):
-        self.kotak_debit = Wallet()
+        self.bank = Wallet()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
                                             'resources/wallet.xls')
-        self.data = self.kotak_debit.getDataFrame(self.sample_csv_path)
+        self.data = self.bank.getDataFrame(self.sample_csv_path)
 
     def test_numberOfRows(self):
         self.assertEqual(len(self.data), 37)
