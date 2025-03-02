@@ -13,7 +13,7 @@ __all__ = ['Bank',
            'IciciDebit',
            'IciciCredit',
            'KotakDebit',
-            'HdfcCredit',
+           'HdfcCredit',
            'HsbcCredit',
            'HsbcDebit',
            'Wallet']

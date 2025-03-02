@@ -42,7 +42,7 @@ class IciciCredit(Bank):
         skip_rows = self.get_transaction_start(filename, ["date", "sr.no"])
         df_full = self.load_bank_statement(filename, skip_rows=skip_rows)
         # filter out empty rows
-        df_filtered = df_full[df_full.iloc[:, 2].notna()]
+        df_filtered = df_full[df_full.iloc[:, 3].notna()]
         df = df_filtered.copy()
         return df
 

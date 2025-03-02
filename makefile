@@ -33,7 +33,7 @@ test:
 
 .PHONY: lint
 lint:
-	flake8 bank_statement_parser/*
+	flake8 statement_parser/*
 	flake8 tests/*
 
 .PHONY: docs
