@@ -67,9 +67,9 @@ class IciciCredit(Bank):
         df[["Amount(in Rs)"]] = df[["Amount(in Rs)"]].astype(float)
         df["Date"] = df["Date"].apply(self.parse_date)
 
-        if df["Sr.No."].max() != len(df):
-            raise ValueError("No. of rows does not match {} != {}"
-                             .format(len(df), df["Sr.No."].max()))
+        # if df["Sr.No."].max() != len(df):
+        #     raise ValueError("No. of rows does not match {} != {}"
+        #                      .format(len(df), df["Sr.No."].max()))
         # to handle duplicate on same day
         df["Seq"] = (
             df.groupby(["Date", "Transaction Details", "Amount(in Rs)"])

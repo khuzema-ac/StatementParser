@@ -76,8 +76,10 @@ class HdfcCredit(Bank):
             df["AMT"] = df["AMT"].astype(str)
         df["AMT"] = df["AMT"].str.replace(",", "")
         df[["AMT"]] = df[["AMT"]].astype(float)
+        # Change Cr to upper case and remove spaces
+        df["Debit / Credit"] = df["Debit / Credit"].str.upper().str.strip()
         # df["DATE"] = df["DATE"].apply(self.parse_date)
-
+        print(df)
         df["Seq"] = (
             df.groupby(["DATE", "Description", "AMT", "Debit / Credit"])
             .cumcount()
