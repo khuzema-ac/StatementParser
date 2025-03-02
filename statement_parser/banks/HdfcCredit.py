@@ -5,7 +5,7 @@ import statement_parser.Bank as Bank
 from statement_parser.Transaction import Transaction
 
 
-class HsbcCredit(Bank):
+class HdfcCredit(Bank):
     __id_bank = "HDFC-CREDIT"
 
     def getTransactions(self, filename: str) -> List[Transaction]:

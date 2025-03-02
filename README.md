@@ -12,7 +12,7 @@
 
 - **Multi-Format Support**: Parse bank statements from  CSV, Excel, and more.
 - **Bank-Specific Parsing**: Customizable parsers for different banks.
-- **Consistent Output**: Normalized transaction data with standardized columns (`Date`, `Description`, `Amount`, `Transaction Type`, etc.).
+- **Consistent Output**: Normalized transaction data with standardized columns (`Date`, `Description`, `Amount`,  etc.).
 - **Easy Integration**: Simple API for quick integration into your Python projects.
 - **Extensible**: Add support for new banks or formats with minimal effort.
 
@@ -23,7 +23,7 @@
 You can install the library via pip:
 
 ```bash
-pip install BankStatementParser
+pip install statement_parser
 ```
 
 
@@ -31,14 +31,10 @@ pip install BankStatementParser
 ### Basic Example
 
 ```python
-from parser import HSBC
+from statement_parser.banks.HdfcCredit import HdfcCredit
 
-# Initialize the parser
-parser = BankStatementParser()
-
-# Parse a bank statement
-df = parser.parse("path/to/statement.pdf", format="pdf", bank="Chase")
-
+parser = HsbcCredit()
+df = parser.getDataFrame("path/to/statement.csv")
 # Display the parsed transactions
 print(df.head())
 ```

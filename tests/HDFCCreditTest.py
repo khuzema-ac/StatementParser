@@ -1,12 +1,12 @@
 import os
 import unittest
-from statement_parser.banks.HdfcCredit import HsbcCredit
+from statement_parser.banks.HdfcCredit import HdfcCredit
 
 
 class TestHdfcCredit(unittest.TestCase):
 
     def setUp(self):
-        self.bank = HsbcCredit()
+        self.bank = HdfcCredit()
         self.sample_csv_path = os.path.join(os.path.dirname(__file__),
                                             'resources/HDFC-Credit.csv')
         self.data = self.bank.getDataFrame(self.sample_csv_path)
