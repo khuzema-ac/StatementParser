@@ -17,7 +17,7 @@ class TestHsbcCredit(unittest.TestCase):
     def test_sumOfAmounts(self):
         print(self.data)
         total_amount = self.data['amount'].sum()
-        expected_total = -63165.76  # Adjust for CR amounts
+        expected_total = 63165.76  # Adjust for CR amounts
         self.assertAlmostEqual(total_amount, expected_total, places=2)
 
 

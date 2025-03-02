@@ -22,9 +22,7 @@ class HsbcCredit(Bank):
             created_date = row["Date"]
             remarks = row["Transaction Details"].strip() + _duplicate
 
-            _multiplier = -1
-
-            amount = row["Amount"] * _multiplier
+            amount = row["Amount"]
             transaction = Transaction(
                 bank=self.__id_bank,
                 created_date=created_date,
