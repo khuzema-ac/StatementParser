@@ -1,5 +1,4 @@
 
-from typing import List
 import pandas as pd
 import statement_parser.Bank as Bank
 from statement_parser.Transaction import Transaction
@@ -8,8 +7,8 @@ from statement_parser.Transaction import Transaction
 class HsbcCredit(Bank):
     __id_bank = "HSBC-CREDIT"
 
-    def getTransactions(self, filename: str) -> List[Transaction]:
-        transactions: List[Transaction] = []
+    def getTransactions(self, filename: str) -> list[Transaction]:
+        transactions: list[Transaction] = []
 
         df = self.getData(filename)
         self.validateDataframe(df)

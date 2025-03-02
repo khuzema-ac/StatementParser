@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from statement_parser.Transaction import Transaction
 import pandas as pd
 from dateutil import parser
 import logging
@@ -6,7 +7,7 @@ import logging
 
 class Bank(ABC):
     @abstractmethod
-    def getTransactions(self, filename: str) -> pd.DataFrame:
+    def getTransactions(self, filename: str) -> list[Transaction]:
         pass
 
     def getDataFrame(self, filename: str) -> pd.DataFrame:
