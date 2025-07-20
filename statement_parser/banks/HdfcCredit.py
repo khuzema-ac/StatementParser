@@ -49,7 +49,6 @@ class HdfcCredit(Bank):
                                                     "AMT",
                                                     "Debit / Credit "])
         # filter out empty rows
-
         df_filtered = df_full[df_full.iloc[:, 1].notna()]
         df_filtered.columns = df_filtered.columns.str.strip()
         df_filtered.loc[:, "DATE"] = df_filtered["DATE"].apply(self.parse_date)
@@ -79,7 +78,7 @@ class HdfcCredit(Bank):
         # Change Cr to upper case and remove spaces
         df["Debit / Credit"] = df["Debit / Credit"].str.upper().str.strip()
         # df["DATE"] = df["DATE"].apply(self.parse_date)
-        print(df)
+        # print(df)
         df["Seq"] = (
             df.groupby(["DATE", "Description", "AMT", "Debit / Credit"])
             .cumcount()

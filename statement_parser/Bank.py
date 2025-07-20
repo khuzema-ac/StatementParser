@@ -85,6 +85,10 @@ class Bank(ABC):
     def parse_date(self, date_str):
         try:
             # Adjust for your date format
-            return parser.parse(date_str, dayfirst=True)
+            # check if date is less than 1990
+            parsed_date = parser.parse(date_str, dayfirst=True)
+            if parsed_date.year < 1900:
+                return None
+            return parsed_date
         except ValueError:
             return None  # Handle invalid dates

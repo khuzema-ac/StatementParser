@@ -21,7 +21,8 @@ class Wallet(Bank):
             if row["Seq"] > 1:
                 _duplicate = " (" + str(row["Seq"]) + ") "
 
-            created_date = row["date"]
+            timestamp = pd.Timestamp(row["date"])
+            created_date = timestamp.to_pydatetime()
             remarks = _category + row["note"].strip() + _duplicate
             amount = row["amount"]
             transaction = Transaction(

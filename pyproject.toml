@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "statement_parser"
-version = "0.0.9"
+version = "0.0.12"
 authors = [
     { name="Khuzema Challawala", email="khuzema.ac@gmail.com" },
 ]
@@ -20,7 +20,8 @@ dependencies = [
     "pandas>=2.2.3",
     "numpy>=2.0.2",
     "xlrd>=2.0.1",
-    "openpyxl>=3.1.5"
+    "openpyxl>=3.1.5",
+    "python-dateutil>=2.8.2",
 ]
 
 [project.optional-dependencies]
@@ -28,5 +29,5 @@ dev = [
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",
     "flake8>=7.1.2",
-    "sphinx>=8.2.1"
+    "sphinx"
 ]

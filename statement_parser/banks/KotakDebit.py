@@ -71,9 +71,7 @@ class KotakDebit(Bank):
         df[["Sl. No."]] = df[["Sl. No."]].astype(int)
         df["Amount"] = df["Amount"].str.replace(",", "")
         df[["Amount"]] = df[["Amount"]].astype(float)
-        df["Transaction Date"] = pd.to_datetime(
-            df["Transaction Date"], format="%d-%m-%Y"
-        )
+        df["Transaction Date"] = df["Transaction Date"].apply(self.parse_date)
 
         if df["Sl. No."].max() != len(df):
             raise ValueError("No. of rows does not match")
